@@ -56,14 +56,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Log.d(TAG, "Key: " + key + " Value: " + value);
 
-
-
             }
-
-
-
         }
-
 
         txt_token = (TextView)findViewById(R.id.txt_token);
         btn_token = (Button)findViewById(R.id.btn_token);
@@ -77,19 +71,11 @@ public class MainActivity extends AppCompatActivity {
                 myRef.push().child("Token").setValue(token);
                 Log.d(TAG, token);
 
-                //SmsManager sms = SmsManager.getDefault();
-                //sms.sendTextMessage("121", null, "Hello",null,null);
+                SmsManager sms = SmsManager.getDefault();
+                sms.sendTextMessage("121", null, "Hello",null,null);
 
             }
         });
-
-
-
-
-        //txt_token.setText(token);
-
-
-
 
     }
 

@@ -35,6 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
 
     DatabaseReference msgRef;
+    String key;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -67,7 +68,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         msgModel.setPhone_no(data.get("mobileno"));
         msgModel.setMessage(data.get("message"));
 
-        msgRef.push().setValue(msgModel);
+        key = msgRef.push().getKey();
+        msgRef.child(key).setValue(msgModel);
 
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
@@ -84,6 +86,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     case Activity.RESULT_OK:
                         Toast.makeText(getBaseContext(), "SMS sent",
                                 Toast.LENGTH_SHORT).show();
+                        msgRef.child(key).child("sent").setValue("true");
+                        String date=getCurrentTimeStamp();
+                        msgRef.child(key).child("sent_timestamp").setValue(date);
+
                         break;
                     case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                         Toast.makeText(getBaseContext(), "Generic failure",
