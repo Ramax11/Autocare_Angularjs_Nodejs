@@ -10,7 +10,6 @@
     android:layout_marginRight="10dp"
     tools:context="com.autocare.apinfo.MainActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,24 +38,14 @@
                 android:hint="Mobile Number"/>
 
             <Button
-                android:id="@+id/btn_send"
+                android:id="@+id/btn_token"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Send"
+                android:text="Send and Get Token"
                 android:background="@color/colorPrimary"
                 android:layout_marginTop="50dp"
                 android:textColor="@android:color/white"/>
     </LinearLayout>
-
-
-
-    <Button
-        android:id="@+id/btn_token"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Get Token"
-        android:gravity="center"
-        />
 
     <TextView
         android:id="@+id/txt_token"

@@ -3,7 +3,6 @@ package com.autocare.apinfo;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import model.Message;
+import com.autocare.apinfo.model.Message;
 
 /**
  * Created by ramachandran on 7/22/17.
@@ -47,8 +45,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             sendSMS(remoteMessage.getData());
 
         }
-
-        
 
 
         if (remoteMessage.getNotification() != null) {

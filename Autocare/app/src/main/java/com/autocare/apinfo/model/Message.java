@@ -1,4 +1,4 @@
-package model;
+package com.autocare.apinfo.model;
 
 /**
  * Created by ramachandran on 7/22/17.

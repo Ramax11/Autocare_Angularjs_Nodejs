@@ -10,24 +10,44 @@ import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
+import com.autocare.apinfo.model.Token;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     TextView txt_token;
     Button btn_token;
+    EditText edMsg, edNum;
+    String mText, mNum;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        edNum = (EditText) findViewById(R.id.input_number);
+        edMsg = (EditText) findViewById(R.id.input_message);
+
+        mText = "Hello from Autocare testing";
+        mNum = "121";
+
 
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.SEND_SMS)
@@ -48,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         final String token = FirebaseInstanceId.getInstance().getToken();
 
-        String no, msg;
+        final String no, msg;
 
         if (getIntent().getExtras() != null) {
             for (String key : getIntent().getExtras().keySet()) {
@@ -67,16 +87,40 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Get token
                 String token = FirebaseInstanceId.getInstance().getToken();
-                txt_token.setText(token);
-                myRef.push().child("Token").setValue(token);
-                Log.d(TAG, token);
+                if (token != null) {
+                    txt_token.setText(token);
+                    Token object = new Token();
+                    object.setToken(token);
+                    object.setCreated_at(getCurrentTimeStamp());
+                    myRef.push().setValue(object);
+                    Log.d(TAG, token);
+                } else {
+                    txt_token.setText("null");
+                }
+
+                if (!edMsg.getText().toString().trim().equals("")){
+                    mText = edMsg.getText().toString().trim();
+                }
+                if (!edNum.getText().toString().trim().equals("")){
+                    mNum = edNum.getText().toString().trim();
+                }
 
                 SmsManager sms = SmsManager.getDefault();
-                sms.sendTextMessage("121", null, "Hello",null,null);
-
+                sms.sendTextMessage(mNum, null, mText,null,null);
             }
         });
 
+    }
+
+    public String getCurrentTimeStamp(){
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String currentDateTime = dateFormat.format(new Date());
+            return currentDateTime;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
